@@ -4,6 +4,12 @@
   "description": "A command-line application wich lets the user choose and use from a list of writing tools",
   "main": "wtools.js",
   "type": "module",
+  "imports": {
+    "#commands/*": "./src/commands/*.js",
+    "#utils/*": "./src/utils/*.js",
+    "#bin/*": "./bin/*.js",
+    "#root/*": "./*.json"
+  },
   "bin": {
     "wtools": "./bin/wtools.js"
   },
