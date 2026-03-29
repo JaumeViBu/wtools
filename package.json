@@ -1,0 +1,13 @@
+{
+  "name": "writing_tools",
+  "version": "0.0.0",
+  "description": "",
+  "main": "tools.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Jaume Vidal Buenafuente",
+  "license": "MIT",
+  "packageManager": "pnpm@10.32.1"
+}
