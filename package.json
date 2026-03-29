@@ -1,6 +1,6 @@
 {
   "name": "writing_tools",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "A command-line application wich lets the user choose and use from a list of writing tools",
   "main": "wtools.js",
   "type": "module",
