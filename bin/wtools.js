@@ -1,5 +1,12 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import version from '../src/commands/version.js';
+import version, {meta as versionMeta} from '../src/commands/version.js';
 
-program.version(version(), '-V, --version', 'Print the current version');
+
+program
+    .name('wtools')
+    .description('A collection of dev tools')
+    .usage('<command> [options]')
+    .version(version(), versionMeta.flag, versionMeta.description);
+
+program.parse();
