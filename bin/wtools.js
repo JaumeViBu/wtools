@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { program } from 'commander';
 import version, { meta as versionMeta } from '#commands/version';
+import list, { meta as listMeta } from '#commands/list';
 
 
 program
@@ -8,6 +9,11 @@ program
     .description('A collection of dev tools')
     .usage('<command> [options]')
     .version(version(), versionMeta.flag, versionMeta.description);
+
+program
+    .command('list')
+    .description(listMeta.description)
+    .action(async () => console.log((await list()).join('\n')));
 
 program.parse();
 
