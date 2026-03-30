@@ -6,9 +6,14 @@ import list, { meta as listMeta } from '#commands/list';
 
 program
     .name('wtools')
-    .description('A collection of dev tools')
+    .description('A collection of writing tools')
     .usage('<command> [options]')
-    .version(version(), versionMeta.flag, versionMeta.description);
+    .version(version(), versionMeta.flag, versionMeta.description)
+    .action(() => {
+        // Show help if no arguments are passed
+        process.stdout.write(program.helpInformation());
+        process.exit(0);
+    });;
 
 program
     .command('list')
@@ -16,8 +21,3 @@ program
     .action(async () => console.log((await list()).join('\n')));
 
 program.parse();
-
-// Show help if no arguments are passed
-if (!process.argv.slice(2).length) {
-    program.outputHelp();
-}
