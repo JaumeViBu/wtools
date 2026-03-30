@@ -1,5 +1,6 @@
 import { execSync } from 'child_process';
 import { describe, it, expect } from 'vitest';
+import { spawnSync } from 'child_process';
 
 describe('wtools', () => {
     it('should run without crashing', () => {
@@ -9,7 +10,7 @@ describe('wtools', () => {
         expect(() => execSync('node bin/wtools.js --version')).not.toThrow();
     });
     it('should show help when called with no arguments', () => {
-        const output = execSync('node bin/wtools.js').toString();
-        expect(output).toContain('Usage:');
+        const result = spawnSync('node', ['bin/wtools.js'], { encoding: 'utf8' });
+        expect(result.stderr).toContain('Usage:');
     });
 });

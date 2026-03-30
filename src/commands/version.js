@@ -6,6 +6,7 @@ function version() {
 
 export default version;
 export const meta = {
+    type: 'flag',
     flag: '-V, --version',
     description: 'Print the current version',
 };
