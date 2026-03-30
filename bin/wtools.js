@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import version, { meta as versionMeta } from '../src/commands/version.js';
+import version, { meta as versionMeta } from '#commands/version';
 
 
 program
