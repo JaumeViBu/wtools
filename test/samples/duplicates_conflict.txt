@@ -1,0 +1,2 @@
+Lorem @[npc_001:pellentesque:C] ipsum
+Dolor @[npc_001:other] sit
