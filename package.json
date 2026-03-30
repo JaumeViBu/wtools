@@ -1,13 +1,23 @@
 {
   "name": "writing_tools",
   "version": "0.0.0",
-  "description": "",
-  "main": "tools.js",
+  "description": "A command-line application wich lets the user choose and use from a list of writing tools",
+  "main": "wtools.js",
+  "type": "module",
+  "bin": {
+    "wtools": "./bin/wtools.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest"
   },
   "keywords": [],
   "author": "Jaume Vidal Buenafuente",
   "license": "MIT",
-  "packageManager": "pnpm@10.32.1"
+  "packageManager": "pnpm@10.32.1",
+  "devDependencies": {
+    "vitest": "^4.1.2"
+  },
+  "dependencies": {
+    "commander": "^14.0.3"
+  }
 }
