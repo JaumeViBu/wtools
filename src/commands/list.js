@@ -25,5 +25,6 @@ async function list() {
 export default list;
 export const meta = {
     type: 'command',
+
     description: 'List all available commands',
 };
