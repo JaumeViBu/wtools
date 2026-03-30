@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import version, {meta as versionMeta} from '../src/commands/version.js';
+import version, { meta as versionMeta } from '../src/commands/version.js';
 
 
 program
@@ -10,3 +10,8 @@ program
     .version(version(), versionMeta.flag, versionMeta.description);
 
 program.parse();
+
+// Show help if no arguments are passed
+if (!process.argv.slice(2).length) {
+    program.outputHelp();
+}
