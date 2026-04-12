@@ -1,8 +1,15 @@
-import { createReadStream, writeFileSync } from 'fs';
+import { createReadStream, writeFileSync, statSync, stat } from 'fs';
 import { createInterface } from 'readline';
 import { dirname, join } from 'path';
+import { type } from 'os';
 
+/**
+ * Parse a tag string into an object
+ * @param {string} raw 
+ * @returns {{id:string,cat:string,short:string,long:string}|null}
+ */
 export function parseTag(raw) {
+    if (typeof raw !== 'string') return null;
     const match = raw.match(/^@\[([^:\]]+):([^:\]]+)(?::([A-Za-z]))?\]$/);
     if (!match) return null;
 
@@ -17,7 +24,15 @@ export function parseTag(raw) {
     };
 }
 
+/**
+ * Extract tags from a line
+ * Returns an array of strings with the tag ids
+ * If no tags are found, returns an empty array
+ * @param {string} line 
+ * @returns {string[]}
+ */
 export function extractTags(line) {
+    if (typeof line !== 'string') return [];
     const regex = /@\[([^\]]+)\]/g;
     return [...line.matchAll(regex)]
         .map(m => parseTag(m[0]))
@@ -25,12 +40,52 @@ export function extractTags(line) {
 }
 
 
-
+/**
+ * Resolve the output path for a given input file, using the given name
+ * If no name is provided, defaults to 'output'
+ * If the input path is not a string, returns null
+ * If the name is not a string, returns null
+ * @param {string} inputPath 
+ * @param {string} name 
+ * @returns {string|null}
+ */
 export function resolveOutputPath(inputPath, name = 'output') {
+    if (typeof inputPath !== 'string') return null;
+    if (typeof name !== 'string') return null;
     return join(dirname(inputPath), `${name}.tag`);
 }
 
+/**
+ * Extract tags from one or more files
+ * Returns an object with the extracted tags and conflicts
+ * @param {string[]} paths 
+ * @param {{output:string}} options
+ * @returns {{results:string[],conflicts:{id:string,existing:string,conflicting:string}[]}}
+ */
 export async function extract(paths, options = {}) {
+    if (!Array.isArray(paths)) return null;
+    if (Array.isArray(options)) return null;
+    if (typeof options !== 'object') return null;
+    if (options === null || options === undefined) return null;
+    if (Object.keys(options).includes('output') && typeof options.output !== 'string') return null;
+
+    let PathsContainsOnlyStrings = true;
+    let isPath = true;
+
+    for (const path of paths) {
+        if (typeof path !== 'string') {
+            PathsContainsOnlyStrings = false;
+            return null;
+        }
+        isPath = true;
+        const checkPath = statSync(path, { throwIfNoEntry: false });
+        if (!checkPath || !checkPath.isFile()) {
+            isPath = false;
+            return null;
+        }
+    }
+    if (!PathsContainsOnlyStrings) return null;
+
     const seen = new Map();
     const conflicts = [];
 
@@ -64,8 +119,9 @@ export async function extract(paths, options = {}) {
     return { results, conflicts };
 }
 
-export default extract;
 export const meta = {
     type: 'command',
     description: 'Extract tags from one or more files',
 };
+
+export default extract;

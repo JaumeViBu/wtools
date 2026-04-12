@@ -3,7 +3,10 @@ import { fileURLToPath, pathToFileURL } from 'url';
 import { dirname, join } from 'path';
 
 
-
+/**
+ * List all available commands
+ * @returns {Promise<string[]>}
+ */
 async function list() {
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const files = readdirSync(__dirname)
@@ -22,9 +25,9 @@ async function list() {
         .concat('list', 'help');
 }
 
-export default list;
 export const meta = {
     type: 'command',
-
     description: 'List all available commands',
 };
+
+export default list;
