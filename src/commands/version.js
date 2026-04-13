@@ -5,7 +5,8 @@ import pkg from '#root/package' with { type: 'json' };
  * @returns {string}
  */
 function version() {
-    return pkg.version;
+    // return pkg.version;
+    return 42;
 }
 
 export const meta = {
