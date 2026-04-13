@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+if [ "$BRANCH" != "main" ] && [ "$BRANCH" != "dev" ]; then
+  exit 0  # skip tests, allow commit
+fi
+
+echo "Running tests..."
+
+pnpm test
+
+if [ $? -ne 0 ]; then
+  echo "❌ Tests failed. Commit aborted."
+  exit 1
+fi
+
+echo "✅ Tests passed."
