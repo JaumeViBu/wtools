@@ -10,6 +10,8 @@ describe('list', () => {
     it('should include commands but not flags', async () => {
         const commands = await list();
         expect(commands).toContain('list');
+        expect(commands).toContain('extract');
+        expect(commands).toContain('help');
         expect(commands).not.toContain('version'); // version is a flag
     });
 
@@ -17,6 +19,7 @@ describe('list', () => {
         const commands = await list();
         expect(commands.every(cmd => !cmd.includes('.js'))).toBe(true);
     });
+
     it('should be registered as a command not a flag', () => {
         expect(meta.type).toBe('command');
     });

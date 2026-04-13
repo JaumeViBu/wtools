@@ -3,11 +3,14 @@ import { fileURLToPath, pathToFileURL } from 'url';
 import { dirname, join } from 'path';
 
 
-
+/**
+ * List all available commands
+ * @returns {Promise<string[]>}
+ */
 async function list() {
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const files = readdirSync(__dirname)
-        .filter(f => f.endsWith('.js') && f !== 'list.js');
+        .filter(f => f.endsWith('.js'));
 
     const commands = await Promise.all(
         files.map(async file => {
@@ -19,12 +22,13 @@ async function list() {
     return commands
         .filter(cmd => cmd.meta?.type === 'command')
         .map(cmd => cmd.name)
-        .concat('list', 'help');
+        .concat('help')
+        .sort();
 }
 
-export default list;
 export const meta = {
     type: 'command',
-
     description: 'List all available commands',
 };
+
+export default list;
