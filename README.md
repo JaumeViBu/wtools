@@ -4,7 +4,7 @@ A set of tools to help you with writing.
 
 ## Installation
 
-Prerequisites: Node.js 24.x or higher
+Prerequisites: Node.js 18.x or higher
 
 ```bash
 npm install wtools
