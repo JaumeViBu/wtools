@@ -2,7 +2,7 @@
   "name": "writing_tools",
   "version": "0.5.0",
   "description": "A command-line application wich lets the user choose and use from a list of writing tools",
-  "main": "wtools.js",
+  "exports": "./bin/wtools.js",
   "type": "module",
   "imports": {
     "#commands/*": "./src/commands/*.js",
@@ -14,6 +14,8 @@
     "wtools": "./bin/wtools.js"
   },
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "start": "node bin/wtools.js",
     "test": "vitest"
   },
   "keywords": [],
