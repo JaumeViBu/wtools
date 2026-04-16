@@ -15,7 +15,7 @@ program
         // Show help if no arguments are passed
         process.stderr.write(program.helpInformation());
         process.exit(0);
-    });;
+    });
 
 program
     .command('list')
@@ -29,7 +29,11 @@ program
     .option('-o, --output <name>', 'output filename without extension', 'output')
     .action(async (paths, options) => {
         console.log('Running Extract...');
-        await extract(paths, options);
+        const result = await extract(paths, options);
+        if (result === null) {
+            console.error('Error: Invalid arguments');
+            process.exit(1);
+        }
         console.log(`saved to ${resolveOutputPath(paths[0], options.output)}`);
     });
 

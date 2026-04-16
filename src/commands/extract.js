@@ -60,7 +60,7 @@ export function resolveOutputPath(inputPath, name = 'output') {
  * Returns an object with the extracted tags and conflicts
  * @param {string[]} paths 
  * @param {{output:string}} options
- * @returns {{results:string[],conflicts:{id:string,existing:string,conflicting:string}[]}}
+ * @returns {{results:string[],conflicts:{id:string,existing:string,conflicting:string}[]}|null}
  */
 export async function extract(paths, options = {}) {
     if (!Array.isArray(paths)) return null;
@@ -69,12 +69,12 @@ export async function extract(paths, options = {}) {
     if (options === null || options === undefined) return null;
     if (Object.keys(options).includes('output') && typeof options.output !== 'string') return null;
 
-    let PathsContainsOnlyStrings = true;
+    let pathsContainsOnlyStrings = true;
     let isPath = true;
 
     for (const path of paths) {
         if (typeof path !== 'string') {
-            PathsContainsOnlyStrings = false;
+            pathsContainsOnlyStrings = false;
             return null;
         }
         isPath = true;
@@ -84,7 +84,7 @@ export async function extract(paths, options = {}) {
             return null;
         }
     }
-    if (!PathsContainsOnlyStrings) return null;
+    if (!pathsContainsOnlyStrings) return null;
 
     const seen = new Map();
     const conflicts = [];

@@ -4,18 +4,18 @@ import { spawnSync } from 'child_process';
 
 describe('wtools', () => {
     it('should run without crashing', () => {
-        expect(() => execSync('node bin/wtools.js')).not.toThrow();
-        expect(() => execSync('node bin/wtools.js -V')).not.toThrow();
-        expect(() => execSync('node bin/wtools.js --version')).not.toThrow();
-        expect(() => execSync('node bin/wtools.js list')).not.toThrow();
-        expect(() => execSync('node bin/wtools.js help')).not.toThrow();
-        expect(() => execSync('node bin/wtools.js -h')).not.toThrow();
+        expect(() => execSync('node bin/wtools.js', { stdio: 'ignore' })).not.toThrow();
+        expect(() => execSync('node bin/wtools.js -V', { stdio: 'ignore' })).not.toThrow();
+        expect(() => execSync('node bin/wtools.js --version', { stdio: 'ignore' })).not.toThrow();
+        expect(() => execSync('node bin/wtools.js list', { stdio: 'ignore' })).not.toThrow();
+        expect(() => execSync('node bin/wtools.js help', { stdio: 'ignore' })).not.toThrow();
+        expect(() => execSync('node bin/wtools.js -h', { stdio: 'ignore' })).not.toThrow();
     });
 
-    it('should crash if given unkown arguments', () => {
-        expect(() => execSync('node bin/wtools.js unkown')).toThrow();
-        expect(() => execSync('node bin/wtools.js -U')).toThrow();
-        expect(() => execSync('node bin/wtools.js --unkown')).toThrow();
+    it('should crash if given unknown arguments', () => {
+        expect(() => execSync('node bin/wtools.js unknown', { stdio: 'ignore' })).toThrow();
+        expect(() => execSync('node bin/wtools.js -U', { stdio: 'ignore' })).toThrow();
+        expect(() => execSync('node bin/wtools.js --unknown', { stdio: 'ignore' })).toThrow();
     });
 
     it('should show help when called with no arguments', () => {
