@@ -1,7 +1,6 @@
-import { createReadStream, writeFileSync, statSync, stat } from 'fs';
+import { createReadStream, writeFileSync, statSync } from 'fs';
 import { createInterface } from 'readline';
 import { dirname, join } from 'path';
-import { type } from 'os';
 
 /**
  * Parse a tag string into an object
