@@ -69,22 +69,17 @@ export async function extract(paths, options = {}) {
     if (options === null || options === undefined) return null;
     if (Object.keys(options).includes('output') && typeof options.output !== 'string') return null;
 
-    let pathsContainsOnlyStrings = true;
-    let isPath = true;
-
     for (const path of paths) {
         if (typeof path !== 'string') {
-            pathsContainsOnlyStrings = false;
             return null;
         }
-        isPath = true;
+
+        // check if path is not valid or is not a file
         const checkPath = statSync(path, { throwIfNoEntry: false });
         if (!checkPath || !checkPath.isFile()) {
-            isPath = false;
             return null;
         }
     }
-    if (!pathsContainsOnlyStrings) return null;
 
     const seen = new Map();
     const conflicts = [];
