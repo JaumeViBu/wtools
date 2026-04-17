@@ -6,8 +6,10 @@
       "request": "launch",
       "name": "Debug wtools",
       "program": "${workspaceFolder}/bin/wtools.js",
-      "args": ["extract", "./test/samples/extract_sample_xs.txt"],
-      "runtimeArgs": ["--experimental-vm-modules"],
+      "args": [
+        "extract",
+        "./test/samples/extract_sample_xs.txt"
+      ],
       "console": "integratedTerminal"
     }
   ]
