@@ -4,43 +4,44 @@ A set of tools to help you with writing.
 
 ## Installation
 
-Prerequisites: Node.js 18.x or higher
-
-```bash
-npm install wtools
-```
-or 
-
+    Prerequisites: 
+    - Node.js 18.x or higher
+    - pnpm 10.x or higher
+Install with:
 ```bash
 pnpm install wtools
 ```
 
 ## Usage
-
+Run without arguments to show help:
 ```bash
 node wtools.js
-```
+
 or
+
+pnpm start
+```
+Can also access the help with:
 
 ```bash
 node wtools.js --help
 ```
-To show description of all options.
+To show version:
 
 ```bash
 node wtools.js -V
 ```
-To show version.
+To show list of available commands:
 
 ```bash
 node wtools.js list
 ```
-To show list of all available commands
+
+Extract tags from one or more files so they can be used later for easy hotswapping the contents of the tags.
 
 ```bash
 node wtools.js extract [options] <paths...>
 ```
-Extract tags from one or more files so they can be used later for easy hotswapping the contents of the tags.
 
 Tags are text with the format @[cat_id:short:caseFlag] where:
 - cat is the category of the tag
@@ -111,9 +112,9 @@ the output file generated will be:
 }
 ```
 
-Options:
-  -o, --output <name>  output filename, without extension (default: "output") 
-  -h, --help           display help for command
+Extract Options:  
+  -o, --output <name>  output filename, without extension (default: "output")  
+  -h, --help           display help for command  
 
 ## Dependencies
 - [commander](https://github.com/tj/commander.js)
