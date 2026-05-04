@@ -16,13 +16,20 @@
   "scripts": {
     "preinstall": "only-allow pnpm",
     "start": "node bin/wtools.js",
-    "test": "vitest"
+    "test": "vitest",
+    "biome": "pnpx @biomejs/biome check",
+    "biome-w": "pnpx @biomejs/biome check --write",
+    "biome-format": "pnpx @biomejs/biome format",
+    "biome-format-w": "pnpx @biomejs/biome format --write",
+    "biome-lint": "pnpx @biomejs/biome lint",
+    "biome-lint-w": "pnpx @biomejs/biome lint --write"
   },
   "keywords": [],
   "author": "Jaume Vidal Buenafuente",
   "license": "MIT",
   "packageManager": "pnpm@10.33.0",
   "devDependencies": {
+    "@biomejs/biome": "2.4.14",
     "only-allow": "^1.2.2",
     "vitest": "^4.1.2"
   },
