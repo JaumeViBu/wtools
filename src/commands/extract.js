@@ -1,6 +1,6 @@
-import { createReadStream, statSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { createInterface } from "node:readline";
+import { createReadStream, statSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { createInterface } from 'node:readline';
 
 /**
  * Parse a tag string into an object
@@ -8,19 +8,19 @@ import { createInterface } from "node:readline";
  * @returns {{id:string,cat:string,short:string,long:string}|null}
  */
 export function parseTag(raw) {
-	if (typeof raw !== "string") return null;
-	const match = raw.match(/^@\[([^:\]]+):([^:\]]+)(?::([A-Za-z]))?\]$/);
-	if (!match) return null;
+    if (typeof raw !== 'string') return null;
+    const match = raw.match(/^@\[([^:\]]+):([^:\]]+)(?::([A-Za-z]))?\]$/);
+    if (!match) return null;
 
-	const [, id, short] = match; // drop caseFlag
-	const cat = id.split("_")[0];
+    const [, id, short] = match; // drop caseFlag
+    const cat = id.split('_')[0];
 
-	return {
-		id,
-		cat,
-		short: short.toLowerCase(),
-		long: short.toLowerCase(),
-	};
+    return {
+        id,
+        cat,
+        short: short.toLowerCase(),
+        long: short.toLowerCase(),
+    };
 }
 
 /**
@@ -31,9 +31,13 @@ export function parseTag(raw) {
  * @returns {string[]}
  */
 export function extractTags(line) {
-	if (typeof line !== "string") return [];
-	const regex = /@\[([^\]]+)\]/g;
-	return [...line.matchAll(regex)].map((m) => parseTag(m[0])).filter(Boolean);
+    if (typeof line !== 'string') return [];
+    const regex = /@\[([^\]]+)\]/g;
+    return [
+        ...line.matchAll(regex),
+    ]
+        .map((m) => parseTag(m[0]))
+        .filter(Boolean);
 }
 
 /**
@@ -45,10 +49,10 @@ export function extractTags(line) {
  * @param {string} name
  * @returns {string|null}
  */
-export function resolveOutputPath(inputPath, name = "output") {
-	if (typeof inputPath !== "string") return null;
-	if (typeof name !== "string") return null;
-	return join(dirname(inputPath), `${name}.tag`);
+export function resolveOutputPath(inputPath, name = 'output') {
+    if (typeof inputPath !== 'string') return null;
+    if (typeof name !== 'string') return null;
+    return join(dirname(inputPath), `${name}.tag`);
 }
 
 /**
@@ -59,64 +63,74 @@ export function resolveOutputPath(inputPath, name = "output") {
  * @returns {{results:string[],conflicts:{id:string,existing:string,conflicting:string}[]}|null}
  */
 export async function extract(paths, options = {}) {
-	if (!Array.isArray(paths)) return null;
-	if (Array.isArray(options)) return null;
-	if (typeof options !== "object") return null;
-	if (options === null || options === undefined) return null;
-	if (
-		Object.keys(options).includes("output") &&
-		typeof options.output !== "string"
-	)
-		return null;
+    if (!Array.isArray(paths)) return null;
+    if (Array.isArray(options)) return null;
+    if (typeof options !== 'object') return null;
+    if (options === null || options === undefined) return null;
+    if (
+        Object.keys(options).includes('output') &&
+        typeof options.output !== 'string'
+    )
+        return null;
 
-	for (const path of paths) {
-		if (typeof path !== "string") {
-			return null;
-		}
+    for (const path of paths) {
+        if (typeof path !== 'string') {
+            return null;
+        }
 
-		// check if path is not valid or is not a file
-		const checkPath = statSync(path, { throwIfNoEntry: false });
-		if (!checkPath?.isFile()) {
-			return null;
-		}
-	}
+        // check if path is not valid or is not a file
+        const checkPath = statSync(path, {
+            throwIfNoEntry: false,
+        });
+        if (!checkPath?.isFile()) {
+            return null;
+        }
+    }
 
-	const seen = new Map();
-	const conflicts = [];
+    const seen = new Map();
+    const conflicts = [];
 
-	for (const filePath of paths) {
-		const rl = createInterface({
-			input: createReadStream(filePath),
-			crlfDelay: Infinity,
-		});
+    for (const filePath of paths) {
+        const rl = createInterface({
+            input: createReadStream(filePath),
+            crlfDelay: Infinity,
+        });
 
-		for await (const line of rl) {
-			for (const tag of extractTags(line)) {
-				if (!seen.has(tag.id)) {
-					seen.set(tag.id, tag);
-				} else if (seen.get(tag.id).short !== tag.short) {
-					// tag is duplicated but with different descriptions => conflict
-					conflicts.push({
-						id: tag.id,
-						existing: seen.get(tag.id).short,
-						conflicting: tag.short,
-					});
-				}
-			}
-		}
-	}
+        for await (const line of rl) {
+            for (const tag of extractTags(line)) {
+                if (!seen.has(tag.id)) {
+                    seen.set(tag.id, tag);
+                } else if (seen.get(tag.id).short !== tag.short) {
+                    // tag is duplicated but with different descriptions => conflict
+                    conflicts.push({
+                        id: tag.id,
+                        existing: seen.get(tag.id).short,
+                        conflicting: tag.short,
+                    });
+                }
+            }
+        }
+    }
 
-	const results = [...seen.values()];
-	const outputPath = resolveOutputPath(paths[0], options.output);
-	const output = { results, conflicts };
-	writeFileSync(outputPath, JSON.stringify(output, null, 2), "utf8");
+    const results = [
+        ...seen.values(),
+    ];
+    const outputPath = resolveOutputPath(paths[0], options.output);
+    const output = {
+        results,
+        conflicts,
+    };
+    writeFileSync(outputPath, JSON.stringify(output, null, 2), 'utf8');
 
-	return { results, conflicts };
+    return {
+        results,
+        conflicts,
+    };
 }
 
 export const meta = {
-	type: "command",
-	description: "Extract tags from one or more files",
+    type: 'command',
+    description: 'Extract tags from one or more files',
 };
 
 export default extract;
