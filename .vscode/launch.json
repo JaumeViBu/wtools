@@ -1,16 +1,13 @@
 {
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Debug wtools",
-      "program": "${workspaceFolder}/bin/wtools.js",
-      "args": [
-        "extract",
-        "./test/samples/extract_sample_xs.txt"
-      ],
-      "console": "integratedTerminal"
-    }
-  ]
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Debug wtools",
+			"program": "${workspaceFolder}/bin/wtools.js",
+			"args": ["extract", "./test/samples/extract_sample_xs.txt"],
+			"console": "integratedTerminal"
+		}
+	]
 }
