@@ -48,7 +48,7 @@
         "LICENSE"
     ],
     "devDependencies": {
-        "@biomejs/biome": "2.4.14",
+        "@biomejs/biome": "2.4.16",
         "only-allow": "^1.2.2",
         "vitest": "^4.1.7"
     },
