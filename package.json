@@ -4,7 +4,6 @@
     "description": "A command-line application which lets the user choose and use from a list of writing tools",
     "exports": "./bin/wtools.js",
     "type": "module",
-    "packageManager": "pnpm@10.8.1",
     "imports": {
         "#commands/*": "./src/commands/*.js",
         "#utils/*": "./src/utils/*.js",
