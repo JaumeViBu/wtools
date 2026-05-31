@@ -1,10 +1,10 @@
-import { createReadStream, writeFileSync, statSync } from 'fs';
-import { createInterface } from 'readline';
-import { dirname, join } from 'path';
+import { createReadStream, statSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { createInterface } from 'node:readline';
 
 /**
  * Parse a tag string into an object
- * @param {string} raw 
+ * @param {string} raw
  * @returns {{id:string,cat:string,short:string,long:string}|null}
  */
 export function parseTag(raw) {
@@ -27,25 +27,26 @@ export function parseTag(raw) {
  * Extract tags from a line
  * Returns an array of strings with the tag ids
  * If no tags are found, returns an empty array
- * @param {string} line 
+ * @param {string} line
  * @returns {string[]}
  */
 export function extractTags(line) {
     if (typeof line !== 'string') return [];
     const regex = /@\[([^\]]+)\]/g;
-    return [...line.matchAll(regex)]
-        .map(m => parseTag(m[0]))
+    return [
+        ...line.matchAll(regex),
+    ]
+        .map((m) => parseTag(m[0]))
         .filter(Boolean);
 }
-
 
 /**
  * Resolve the output path for a given input file, using the given name
  * If no name is provided, defaults to 'output'
  * If the input path is not a string, returns null
  * If the name is not a string, returns null
- * @param {string} inputPath 
- * @param {string} name 
+ * @param {string} inputPath
+ * @param {string} name
  * @returns {string|null}
  */
 export function resolveOutputPath(inputPath, name = 'output') {
@@ -57,7 +58,7 @@ export function resolveOutputPath(inputPath, name = 'output') {
 /**
  * Extract tags from one or more files
  * Returns an object with the extracted tags and conflicts
- * @param {string[]} paths 
+ * @param {string[]} paths
  * @param {{output:string}} options
  * @returns {{results:string[],conflicts:{id:string,existing:string,conflicting:string}[]}|null}
  */
@@ -66,7 +67,11 @@ export async function extract(paths, options = {}) {
     if (Array.isArray(options)) return null;
     if (typeof options !== 'object') return null;
     if (options === null || options === undefined) return null;
-    if (Object.keys(options).includes('output') && typeof options.output !== 'string') return null;
+    if (
+        Object.keys(options).includes('output') &&
+        typeof options.output !== 'string'
+    )
+        return null;
 
     for (const path of paths) {
         if (typeof path !== 'string') {
@@ -74,8 +79,10 @@ export async function extract(paths, options = {}) {
         }
 
         // check if path is not valid or is not a file
-        const checkPath = statSync(path, { throwIfNoEntry: false });
-        if (!checkPath || !checkPath.isFile()) {
+        const checkPath = statSync(path, {
+            throwIfNoEntry: false,
+        });
+        if (!checkPath?.isFile()) {
             return null;
         }
     }
@@ -105,12 +112,20 @@ export async function extract(paths, options = {}) {
         }
     }
 
-    const results = [...seen.values()];
+    const results = [
+        ...seen.values(),
+    ];
     const outputPath = resolveOutputPath(paths[0], options.output);
-    const output = { results, conflicts };
+    const output = {
+        results,
+        conflicts,
+    };
     writeFileSync(outputPath, JSON.stringify(output, null, 2), 'utf8');
 
-    return { results, conflicts };
+    return {
+        results,
+        conflicts,
+    };
 }
 
 export const meta = {

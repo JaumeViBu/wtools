@@ -1,126 +1,113 @@
 # wtools
 
-A set of tools to help you with writing.
+> A CLI toolkit for writers — extract, organize, and manage inline tags in your text files.
 
 ## Installation
 
-    Prerequisites: 
-    - Node.js 18.x or higher
-    - pnpm 10.x or higher
-Install with:
 ```bash
-pnpm install wtools
+pnpm install writing_tools
 ```
+
+**Prerequisites:**
+
+- Node.js 18+
+- pnpm 10+
 
 ## Usage
-Run without arguments to show help:
-```bash
-node wtools.js
 
-or
-
-pnpm start
 ```
-Can also access the help with:
-
-```bash
-node wtools.js --help
-```
-To show version:
-
-```bash
-node wtools.js -V
-```
-To show list of available commands:
-
-```bash
-node wtools.js list
+pnpm start [command] [options]
 ```
 
-Extract tags from one or more files so they can be used later for easy hotswapping the contents of the tags.
+Or directly:
 
-```bash
-node wtools.js extract [options] <paths...>
+```
+node bin/wtools.js [command] [options]
 ```
 
-Tags are text with the format @[cat_id:short:caseFlag] where:
-- cat is the category of the tag
-- id is the id of the tag
-- short is the short description of the tag
-- caseFlag is the case flag of the tag, which can be C (capital), U (uppercase) or L (lowercase), to indicate which case the tag should be replaced with
+### Commands
 
-After extracting the tags, the output is saved to a file with the name given in -o option or output by default, with a .tag extension.
+| Command     | Description                                         |
+|-------------|-----------------------------------------------------|
+| `list`      | List all available commands                          |
+| `extract`   | Extract tags from files into a reusable JSON output  |
+| `version`   | Show the version (`-V`)                              |
+| `help`      | Show help for any command (`--help`)                 |
 
-Each tag found is saved in the output file as an object with the following properties:
-- id: the id of the tag
-- cat: the category of the tag
-- short: the short description of the tag
-- long: the long description of the tag, which is the same as the short description. This is added for user convenience, to be able to expand the description in the output file keeping the text with tags lean and clean.
+#### `extract`
 
-If a tag is found multiple times, it is deduplicated by id, and the first occurrence is kept and a conflict entry is added to the output file.
+Extracts tags with the format `@[cat_id:short:caseFlag]` from one or more files and saves them as structured JSON.
 
-For example, if the input file is:
-```txt
+**Tag format:**
+
+- `cat` — category (e.g. `npc`)
+- `id` — unique identifier (e.g. `001`)
+- `short` — short description
+- `caseFlag` — optional case: `C` (capitalize), `U` (uppercase), `L` (lowercase)
+
+**Options:**
+
+| Flag                 | Description                         |
+|----------------------|-------------------------------------|
+| `-o, --output <name>`| Output filename (without extension) |
+| `-h, --help`         | Display help                        |
+
+**Example:**
+
+Input:
+```
 Lorem @[npc_001:pellentesque:C] ipsum
 Dolor @[npc_002:amet] sit
 ```
-the output file generated will be:
 
+Output (`output.tag`):
 ```json
 {
   "results": [
-    {
-      "id": "npc_001",
-      "cat": "npc",
-      "short": "pellentesque",
-      "long": "pellentesque"
-    },
-    {
-      "id": "npc_002",
-      "cat": "npc",
-      "short": "amet",
-      "long": "amet"
-    }
+    { "id": "npc_001", "cat": "npc", "short": "pellentesque", "long": "pellentesque" },
+    { "id": "npc_002", "cat": "npc", "short": "amet", "long": "amet" }
   ],
   "conflicts": []
 }
 ```
-Conflicts are tags that have the same id but different descriptions. For example, if the input file is:
-```txt
-Lorem @[npc_001:pellentesque:C] ipsum
-Dolor @[npc_001:amet] sit
-```
-the output file generated will be:
 
-```json
-{
-  "results": [
-    {
-      "id": "npc_001",
-      "cat": "npc",
-      "short": "pellentesque",
-      "long": "pellentesque"
-    }
-  ],
-  "conflicts": [
-    {
-      "id": "npc_001",
-      "existing": "pellentesque",
-      "conflicting": "amet"
-    }
-  ]
-}
-```
+If a tag `id` appears with conflicting descriptions, it is deduplicated (first occurrence wins) and logged in `conflicts`.
 
-Extract Options:  
-  -o, --output <name>  output filename, without extension (default: "output")  
-  -h, --help           display help for command  
+## Scripts
+
+| Command                | Action                      |
+|------------------------|-----------------------------|
+| `pnpm start`           | Run the CLI                 |
+| `pnpm test`            | Run tests (vitest)          |
+| `pnpm biome`           | Lint & format check         |
+| `pnpm biome-w`         | Lint & format auto-fix      |
+| `pnpm biome-format`    | Format check                |
+| `pnpm biome-format-w`  | Format auto-fix             |
+| `pnpm biome-lint`      | Lint check                  |
+| `pnpm biome-lint-w`    | Lint auto-fix               |
 
 ## Dependencies
-- [commander](https://github.com/tj/commander.js)
 
-### Development Dependencies
-- [vitest](https://github.com/vitest-dev/vitest)
+- [commander](https://github.com/tj/commander.js) — CLI framework
+
+### Dev Dependencies
+
+- [vitest](https://github.com/vitest-dev/vitest) — test runner
+- [@biomejs/biome](https://biomejs.dev) — linter & formatter
+- [only-allow](https://github.com/pnpm/only-allow) — enforce pnpm
+
+## Project Structure
+
+```
+bin/wtools.js          # CLI entry point
+src/commands/          # Command implementations
+  extract.js
+  list.js
+  version.js
+src/utils/             # Utility functions
+test/                  # Test files
+```
 
 ## License
+
 [MIT](LICENSE)

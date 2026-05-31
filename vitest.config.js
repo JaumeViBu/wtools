@@ -7,6 +7,6 @@ export default defineConfig({
             '#utils/': new URL('./src/utils/', import.meta.url).pathname,
             '#bin/': new URL('./bin/', import.meta.url).pathname,
             '#root/': new URL('./package.json', import.meta.url).pathname,
-        }
-    }
+        },
+    },
 });

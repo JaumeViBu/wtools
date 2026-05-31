@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import version, { meta } from '#commands/version';
 import { version as pkgVersion } from '#root/package' with { type: 'json' };
 
@@ -17,5 +17,3 @@ describe('version', () => {
         expect(meta.flag).toBe('-V, --version');
     });
 });
-
-

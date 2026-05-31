@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import list, { meta } from '#commands/list';
 
 describe('list', () => {
@@ -17,7 +17,7 @@ describe('list', () => {
 
     it('should not include file extensions', async () => {
         const commands = await list();
-        expect(commands.every(cmd => !cmd.includes('.js'))).toBe(true);
+        expect(commands.every((cmd) => !cmd.includes('.js'))).toBe(true);
     });
 
     it('should be registered as a command not a flag', () => {

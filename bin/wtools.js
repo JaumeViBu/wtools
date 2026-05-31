@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import version, { meta as versionMeta } from '#commands/version';
+import extract, {
+    meta as extractMeta,
+    resolveOutputPath,
+} from '#commands/extract';
 import list, { meta as listMeta } from '#commands/list';
-import extract, { meta as extractMeta, resolveOutputPath } from '#commands/extract';
-
+import version, { meta as versionMeta } from '#commands/version';
 
 program
     .name('wtools')
@@ -26,7 +28,11 @@ program
     .command('extract')
     .description(extractMeta.description)
     .argument('<paths...>', 'Paths to files to extract tags from')
-    .option('-o, --output <name>', 'output filename without extension', 'output')
+    .option(
+        '-o, --output <name>',
+        'output filename without extension',
+        'output',
+    )
     .action(async (paths, options) => {
         console.log('Running Extract...');
         const result = await extract(paths, options);
