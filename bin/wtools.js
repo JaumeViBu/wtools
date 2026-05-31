@@ -8,7 +8,7 @@ import list, { meta as listMeta } from '#commands/list';
 import version, { meta as versionMeta } from '#commands/version';
 
 program
-    .name('wtools')
+    .name('writing_tools')
     .description('A collection of writing tools')
     .usage('<command> [options]')
     .version(version(), versionMeta.flag, versionMeta.description)
