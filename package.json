@@ -22,11 +22,21 @@
         "biome-format": "pnpx @biomejs/biome format",
         "biome-format-w": "pnpx @biomejs/biome format --write",
         "biome-lint": "pnpx @biomejs/biome lint",
-        "biome-lint-w": "pnpx @biomejs/biome lint --write"
+        "biome-lint-w": "pnpx @biomejs/biome lint --write",
+        "publishOnly": "pnpm test"
     },
-    "keywords": [],
+    "keywords": ["writing", "tags", "cli", "extract"],
     "author": "Jaume Vidal Buenafuente",
     "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/JaumeViBu/wtools.git"
+    },
+    "bugs": {
+        "url": "https://github.com/JaumeViBu/wtools/issues"
+    },
+    "homepage": "https://github.com/JaumeViBu/wtools#readme",
+    "files": ["bin/", "src/", "README.md", "LICENSE"],
     "devDependencies": {
         "@biomejs/biome": "2.4.14",
         "only-allow": "^1.2.2",
