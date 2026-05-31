@@ -1,0 +1,22 @@
+{
+    "name": "writing-tools",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": ["biomejs.biome"],
+            "settings": {
+                "files.eol": "\n",
+                "editor.defaultFormatter": "biomejs.biome",
+                "editor.formatOnSave": true,
+                "editor.codeActionsOnSave": {
+                    "source.fixAll.biome": "explicit",
+                    "source.organizeImports.biome": "explicit"
+                }
+            }
+        }
+    },
+    "postCreateCommand": "pnpm install",
+    "remoteUser": "node"
+}
